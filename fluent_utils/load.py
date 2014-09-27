@@ -1,32 +1,77 @@
 from __future__ import absolute_import
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from .django_compat import get_app_names
 import sys
 import traceback
 
-try:
-    from importlib import import_module
-except ImportError:
-    from django.utils.importlib import import_module  # Python 2.6 compatibility
-
-
 __all__ = (
+    'import_settings_class',
     'import_class',
     'import_apps_submodule',
 )
 
 
-def import_class(import_path, setting_name):
+def import_settings_class(setting_name):
+    """
+    Return the class pointed to be an app setting variable.
+    """
+    config_value = getattr(settings, setting_name)
+    if config_value is None:
+        raise ImproperlyConfigured("Required setting not found: {0}".format(setting_name))
+
+    return import_class(config_value, setting_name)
+
+
+def import_class(import_path, setting_name=None):
     """
     Import a class by name.
     """
     mod_name, class_name = import_path.rsplit('.', 1)
 
     # import module
+    mod = _import_module(mod_name, classnames=(class_name,))
+    if mod is not None:
+        # Loaded module, get attribute
+        try:
+            return getattr(mod, class_name)
+        except AttributeError:
+            pass
+
+    # For ImportError and AttributeError, raise the same exception.
+    if setting_name:
+        raise ImproperlyConfigured("{0} does not point to an existing class: {1}".format(setting_name, import_path))
+    else:
+        raise ImproperlyConfigured("Class not found: {0}".format(import_path))
+
+
+def import_apps_submodule(submodule):
+    """
+    Look for a submodule is a series of packages, e.g. ".pagetype_plugins" in all INSTALLED_APPS.
+    """
+    apps = []
+    for app in get_app_names():
+        if _import_module('{0}.{1}'.format(app, submodule)) is not None:
+            apps.append(app)
+
+    return apps
+
+
+# Based on code from django-oscar:
+def _import_module(module_label, classnames=()):
+    """
+    Imports the module with the given name.
+    Returns None if the module doesn't exist, but propagates any import errors.
+    """
     try:
-        mod = import_module(mod_name)
-        cls = getattr(mod, class_name)
-    except ImportError as e:
+        return __import__(module_label, fromlist=classnames)
+    except ImportError:
+        # There are 2 reasons why there could be an ImportError:
+        #
+        #  1. Module does not exist. In that case, we ignore the import and return None
+        #  2. Module exists but another ImportError occurred when trying to import the module.
+        #     In that case, it is important to propagate the error.
+        #
         # ImportError does not provide easy way to distinguish those two cases.
         # Fortunately, the traceback of the ImportError starts at __import__
         # statement. If the traceback has more than one frame, it means that
@@ -34,26 +79,5 @@ def import_class(import_path, setting_name):
         __, __, exc_traceback = sys.exc_info()
         frames = traceback.extract_tb(exc_traceback)
         if len(frames) > 1:
-            raise  # import error is a level deeper.
-
-        raise ImproperlyConfigured("{0} does not point to an existing class: {1}".format(setting_name, import_path))
-    except AttributeError:
-        raise ImproperlyConfigured("{0} does not point to an existing class: {1}".format(setting_name, import_path))
-
-    return cls
-
-
-def import_apps_submodule(submodule):
-    """
-    Look for a submodule is a series of packages, e.g. ".pagetype_plugins" in all INSTALLED_APPS.
-    """
-    for app in settings.INSTALLED_APPS:
-        try:
-            import_module('.' + submodule, app)
-        except ImportError:
-            __, __, exc_traceback = sys.exc_info()
-            frames = traceback.extract_tb(exc_traceback)
-            if len(frames) > 1:
-                raise  # import error is a level deeper.
-            else:
-                pass
+            raise
+    return None
