@@ -5,7 +5,7 @@ except ImportError:
     # Django < 1.4
     from datetime import datetime
     now = datetime.now
-    utc = None   # very naive
+    utc = None   # datetime(..., tzinfo=utc) creates naive datetime this way.
 
 # URLs moved in Django 1.4
 try:
