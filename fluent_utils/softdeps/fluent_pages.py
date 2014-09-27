@@ -1,0 +1,40 @@
+"""
+Optional integration with fluent-pages features
+"""
+from __future__ import absolute_import
+from fluent_utils.django_compat import is_installed
+
+__all__ = (
+    'CurrentPageMixin',
+    'mixed_reverse',
+    'HAS_APP_URLS',
+)
+
+if is_installed('fluent_pages'):
+    # Use the real code.
+    from fluent_pages.views import CurrentPageMixin
+    from fluent_pages.urlresolvers import mixed_reverse  # app_reverse == hard dependency, no need to import here.
+
+    HAS_APP_URLS = True
+else:
+    # Use the stubs
+    from django.core.urlresolvers import reverse
+    from fluent_utils.django_compat import is_installed
+    from parler.views import ViewUrlMixin
+
+    HAS_APP_URLS = False
+
+    class CurrentPageMixin(ViewUrlMixin):
+        """
+        Sub for CurrentPageMixin. Will use the real code if it exists.
+        Make sure to define :attr:`view_url_name`, as that is required by :class:`~parler.views.ViewUrlMixin`.
+        """
+        pass
+
+    def mixed_reverse(viewname, args=None, kwargs=None, current_app=None, current_page=None, language_code=None, multiple=False, ignore_multiple=False):
+        """
+        Stub for :func:`fluent_pages.urlresolvers.mixed_reverse`.
+        Will use the real code if the app is loaded,
+        otherwise :func:`~django.core.urlresolvers.reverse` is used.
+        """
+        return reverse(viewname, args=args, kwargs=kwargs, current_app=current_app)
