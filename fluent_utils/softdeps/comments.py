@@ -6,12 +6,12 @@ All functions even work without having the app installed,
 and return stub or dummy values so all code works as expected.
 """
 import django
-from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from fluent_utils.django_compat import is_installed, AUTH_USER_MODEL
+from fluent_utils.django_compat.moves.contenttypes import GenericForeignKey, GenericRelation
 
 __all__ = (
     'django_comments',                # Main module
