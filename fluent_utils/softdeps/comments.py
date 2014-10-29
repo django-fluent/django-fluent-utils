@@ -131,9 +131,9 @@ class CommentModelStub(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_pk = models.TextField()
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
-    site = models.ForeignKey(Site)
+    site = models.ForeignKey(Site, related_name='+')
 
-    user = models.ForeignKey(AUTH_USER_MODEL)
+    user = models.ForeignKey(AUTH_USER_MODEL, related_name='+')
     user_name = models.CharField(max_length=50, blank=True)
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
