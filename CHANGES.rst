@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Version 1.1 (dev)
------------------
+Version 1.1 (2014-10-30)
+------------------------
 
 * Add soft-dependency support for django-any-urlfield_.
 * ``CommentModelStub``: avoid getting an relation on User and Site
