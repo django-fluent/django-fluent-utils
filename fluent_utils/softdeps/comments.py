@@ -102,6 +102,11 @@ def get_comments_are_moderated(instance):
 # Can't use EmptyQueryset stub in Django 1.6 anymore,
 # using this model to build a queryset instead.
 class CommentManagerStub(models.Manager):
+    # Tell Django that related fields also need to use this manager:
+    # This makes sure that deleting a User won't cause any SQL queries
+    # on a non-existend django_comments_stub table.
+    use_for_related_fields = True
+
     def get_queryset(self):
         return super(CommentManagerStub, self).get_queryset().none()
 
@@ -131,9 +136,9 @@ class CommentModelStub(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_pk = models.TextField()
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
-    site = models.ForeignKey(Site, related_name='+')
+    site = models.ForeignKey(Site)
 
-    user = models.ForeignKey(AUTH_USER_MODEL, related_name='+')
+    user = models.ForeignKey(AUTH_USER_MODEL, related_name="%(class)s_comments")
     user_name = models.CharField(max_length=50, blank=True)
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
