@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 1.1.1 (2014-11-05)
+--------------------------
+
+* Fix django-taggit_ support, only django-taggit-autosuggest_ or django-taggit-autocomplete-modified_ worked.
+
+
 Version 1.1 (2014-10-30)
 ------------------------
 
@@ -15,3 +21,6 @@ Version 1.0 (2014-09-28)
 
 
 .. _django-any-urlfield: https://github.com/edoburu/django-any-urlfield
+.. _django-taggit: https://github.com/alex/django-taggit
+.. _django-taggit-autosuggest: https://bitbucket.org/fabian/django-taggit-autosuggest
+.. _django-taggit-autocomplete-modified: http://packages.python.org/django-taggit-autocomplete-modified/
