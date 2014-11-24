@@ -2,11 +2,13 @@
 Optional integration with fluent-pages features
 """
 from __future__ import absolute_import
+from django.utils.functional import lazy
 from fluent_utils.django_compat import is_installed
 
 __all__ = (
     'CurrentPageMixin',
     'mixed_reverse',
+    'mixed_reverse_lazy',
     'HAS_APP_URLS',
 )
 
@@ -14,6 +16,11 @@ if is_installed('fluent_pages'):
     # Use the real code.
     from fluent_pages.views import CurrentPageMixin
     from fluent_pages.urlresolvers import mixed_reverse  # app_reverse == hard dependency, no need to import here.
+
+    try:
+        from fluent_pages.urlresolvers import mixed_reverse_lazy  # added after v1.0b4
+    except ImportError:
+        mixed_reverse_lazy = lazy(mixed_reverse, str)
 
     HAS_APP_URLS = True
 else:
@@ -38,3 +45,5 @@ else:
         otherwise :func:`~django.core.urlresolvers.reverse` is used.
         """
         return reverse(viewname, args=args, kwargs=kwargs, current_app=current_app)
+
+    mixed_reverse_lazy = lazy(mixed_reverse, str)

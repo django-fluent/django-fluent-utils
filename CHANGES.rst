@@ -5,6 +5,7 @@ Version 1.1.2
 --------------------------
 
 * Fix ``import_apps_submodule()`` and ``import_class()`` to ignore PyDev/PyCharm 4.x import hook.
+* Added ``fluent_utils.softdeps.fluent_pages.mixed_reverse_lazy()`` function.
 
 
 Version 1.1.1 (2014-11-05)
