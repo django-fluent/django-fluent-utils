@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 1.1.2
+Version 1.1.2 (2014-12-11)
 --------------------------
 
 * Fix ``import_apps_submodule()`` and ``import_class()`` to ignore PyDev/PyCharm 4.x import hook.
