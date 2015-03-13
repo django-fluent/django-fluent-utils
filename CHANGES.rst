@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 1.1.4 (2015-03-13)
+--------------------------
+
+* Fix Django 1.6 compatibility for truncate_name import
+
 Version 1.1.3 (2015-03-13)
 --------------------------
 
