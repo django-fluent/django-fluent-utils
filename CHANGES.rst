@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 1.1.3 (2015-03-13)
+--------------------------
+
+* Added ``fluent_utils.django_compat.get_app_label()``
+* Added ``fluent_utils.dry.models.get_db_table()``
+
+
 Version 1.1.2 (2015-01-08)
 --------------------------
 
