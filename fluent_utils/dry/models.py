@@ -1,5 +1,4 @@
-from django.db.backends.utils import truncate_name
-from fluent_utils.django_compat import get_app_label
+from fluent_utils.django_compat import get_app_label, truncate_name
 
 
 def get_db_table(module, model_name, meta=None, prefix=None):

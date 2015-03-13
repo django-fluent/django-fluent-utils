@@ -5,6 +5,8 @@ from django.conf import settings
 try:
     from django.apps import apps
 except ImportError:
+    from django.db.backends.util import truncate_name
+
     # Django 1.6 or below.
     def is_installed(appname):
         return appname in settings.INSTALLED_APPS
@@ -21,6 +23,8 @@ except ImportError:
         model_module = sys.modules[module]
         return model_module.__name__.split('.')[-2]
 else:
+    from django.db.backends.utils import truncate_name
+
     # Django 1.7 provides an official API, and INSTALLED_APPS may contain non-string values too.
     is_installed = apps.is_installed
     get_models = apps.get_models
