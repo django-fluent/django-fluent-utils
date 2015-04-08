@@ -1,10 +1,17 @@
 Changelog
 =========
 
+Version 1.1.5 (2015-04-08)
+--------------------------
+
+* Added new exports in ``fluent_utils.softdeps.comments``: ``get_form()`` and ``signals``
+
+
 Version 1.1.4 (2015-03-13)
 --------------------------
 
 * Fix Django 1.6 compatibility for truncate_name import
+
 
 Version 1.1.3 (2015-03-13)
 --------------------------

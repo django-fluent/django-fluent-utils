@@ -1,7 +1,7 @@
 """
 Optional integration with django-contrib-comments
 
-This avoids loading django.contrib.comments unless it's installed.
+This avoids loading django_comments or django.contrib.comments unless it's installed.
 All functions even work without having the app installed,
 and return stub or dummy values so all code works as expected.
 """
@@ -15,7 +15,9 @@ from fluent_utils.django_compat.moves.contenttypes import GenericForeignKey, Gen
 
 __all__ = (
     'django_comments',                # Main module
+    'signals',                        # Signals module
     'get_model',                      # Get the comment model
+    'get_form',                       # Get the comment form
     'get_public_comments_for_model',  # Get publicly visible comments
     'get_comments_are_open',          # Utility to check if comments are open for a model.
     'get_comments_are_moderated',     # Utility to check if comments are moderated for a model.
@@ -28,6 +30,7 @@ __all__ = (
 
 django_comments = None
 moderator = None
+signals = None
 CommentModerator = None
 get_model = None
 IS_INSTALLED = False
@@ -35,18 +38,21 @@ IS_INSTALLED = False
 if is_installed('django.contrib.comments'):
     # Django 1.7 and below
     from django.contrib import comments as django_comments
-    from django.contrib.comments import get_model
+    from django.contrib.comments import get_model, get_form, signals
     from django.contrib.comments.moderation import moderator, CommentModerator
     IS_INSTALLED = True
 elif is_installed('django_comments'):
     # as of Django 1.8, this is a separate app.
     import django_comments
-    from django_comments import get_model
+    from django_comments import get_model, get_form, signals
     from django_comments.moderation import moderator, CommentModerator
     IS_INSTALLED = True
 else:
     def get_model():
         return CommentManagerStub
+
+    def get_form():
+        raise NotImplementedError("No stub for comments.get_form() is implemented!")
 
 
 def get_public_comments_for_model(model):
