@@ -22,7 +22,12 @@ except ImportError:
         # For 'django.contrib.sites.models', this would be 'sites'.
         model_module = sys.modules[module]
         return model_module.__name__.split('.')[-2]
+
+    def get_meta_model_name(opts):
+        return opts.module_name
+
 else:
+    # util was renamed to utils for consistently
     from django.db.backends.utils import truncate_name
 
     # Django 1.7 provides an official API, and INSTALLED_APPS may contain non-string values too.
@@ -38,3 +43,7 @@ else:
         # Django 1.7 knows the "apps", so it can provide the meta information
         app_config = apps.get_containing_app_config(module)
         return app_config.label
+
+    def get_meta_model_name(opts):
+        # This name was available as of Django 1.6, mandatory in 1.8
+        return opts.model_name
