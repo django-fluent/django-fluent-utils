@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 1.2
+-----------
+
+* Add soft-dependency support for django-any-imagefield_..
+
 Version 1.1.6 (2015-04-16)
 --------------------------
 
@@ -55,6 +60,7 @@ Version 1.0 (2014-09-28)
 
 
 .. _django-any-urlfield: https://github.com/edoburu/django-any-urlfield
+.. _django-any-imagefield: https://github.com/edoburu/django-any-imagefield
 .. _django-taggit: https://github.com/alex/django-taggit
 .. _django-taggit-autosuggest: https://bitbucket.org/fabian/django-taggit-autosuggest
 .. _django-taggit-autocomplete-modified: http://packages.python.org/django-taggit-autocomplete-modified/
