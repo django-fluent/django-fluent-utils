@@ -7,6 +7,7 @@ This includes:
 
 * Making integration with modules optional
 * Django compatibility code
+* Shared code for fluet apps ("Don't repeat yourself")
 
 For optional modules, STUB interfaces are implemented.
 When the actual modules are available, those features are picked up by all apps.
