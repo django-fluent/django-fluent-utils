@@ -8,6 +8,7 @@ and return stub or dummy values so all code works as expected.
 import django
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
+from django.dispatch import Signal
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from fluent_utils.django_compat import is_installed, AUTH_USER_MODEL
@@ -30,7 +31,6 @@ __all__ = (
 
 django_comments = None
 moderator = None
-signals = None
 CommentModerator = None
 get_model = None
 IS_INSTALLED = False
@@ -53,6 +53,13 @@ else:
 
     def get_form():
         raise NotImplementedError("No stub for comments.get_form() is implemented!")
+
+    class SignalsStub(object):
+        comment_will_be_posted = Signal(providing_args=["comment", "request"])
+        comment_was_posted = Signal(providing_args=["comment", "request"])
+        comment_was_flagged = Signal(providing_args=["comment", "flag", "created", "request"])
+
+    signals = SignalsStub()
 
 
 def get_public_comments_for_model(model):

@@ -4,6 +4,7 @@ Changelog
 Version 1.1.6 (2015-04-16)
 --------------------------
 
+* Added ``fluent_utils.softdeps.comments.signals`` stub export.
 * Added ``fluent_utils.django_compat.get_meta_model_name()``.
 * Added ``fluent_utils.django_compat.is_queryset_empty()``.
 
