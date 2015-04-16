@@ -21,7 +21,7 @@ def find_version(*parts):
 setup(
     name='django-fluent-utils',
     version=find_version('fluent_utils', '__init__.py'),
-    license='Apache License, Version 2.0',
+    license='Apache 2.0',
 
     install_requires=[
     ],
