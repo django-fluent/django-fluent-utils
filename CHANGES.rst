@@ -1,8 +1,14 @@
 Changelog
 =========
 
-Version 1.2
------------
+Version 1.2.1 (2015-04-16)
+--------------------------
+
+* Allow ``is_installed()`` to work before Django app registry is ready.
+
+
+Version 1.2 (2015-04-16)
+------------------------
 
 * Add soft-dependency support for django-any-imagefield_..
 

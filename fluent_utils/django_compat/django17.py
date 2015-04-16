@@ -1,5 +1,8 @@
 import sys
+import logging
 from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 
 try:
@@ -31,8 +34,14 @@ else:
     from django.db.backends.utils import truncate_name
 
     # Django 1.7 provides an official API, and INSTALLED_APPS may contain non-string values too.
-    is_installed = apps.is_installed
     get_models = apps.get_models
+
+    def is_installed(appname):
+        if apps.apps_ready:
+            return apps.is_installed(appname)
+        else:
+            logger.debug('''fluent_utils.django_compat.is_installed("%s") only checks settings.INSTALLED_APPS, Apps aren't loaded yet.''', appname)
+            return appname in settings.INSTALLED_APPS
 
     def get_app_names():
         return [
