@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 1.2.2 (2015-12-28)
+--------------------------
+
+* Added Django 1.9 imports for ``ForwardManyToOneDescriptor`` / ``ReverseOneToOneDescriptor``.
+
+
 Version 1.2.1 (2015-04-16)
 --------------------------
 
