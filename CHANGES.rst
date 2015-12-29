@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 1.2.3 (2015-12-29)
+--------------------------
+
+* Added Django 1.7+ compatible imports for ``get_model()`` and ``get_current_site()``.
+
+
 Version 1.2.2 (2015-12-28)
 --------------------------
 
