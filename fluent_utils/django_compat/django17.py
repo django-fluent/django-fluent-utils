@@ -9,6 +9,8 @@ try:
     from django.apps import apps
 except ImportError:
     from django.db.backends.util import truncate_name
+    from django.db.models.loading import get_model
+    from django.contrib.sites.models import get_current_site
 
     # Django 1.6 or below.
     def is_installed(appname):
@@ -33,8 +35,12 @@ else:
     # util was renamed to utils for consistently
     from django.db.backends.utils import truncate_name
 
+    # get_current_site was moved outside models to avoid import Site models
+    from django.contrib.sites.shortcuts import get_current_site
+
     # Django 1.7 provides an official API, and INSTALLED_APPS may contain non-string values too.
     get_models = apps.get_models
+    get_model = apps.get_model
 
     def is_installed(appname):
         if apps.apps_ready:
