@@ -62,7 +62,7 @@ class TagsMixin(models.Model):
 
         # can't filter, see
         # - https://github.com/alex/django-taggit/issues/32
-        # - http://django-taggit.readthedocs.org/en/latest/api.html#TaggableManager.similar_objects
+        # - https://django-taggit.readthedocs.io/en/latest/api.html#TaggableManager.similar_objects
         #
         # Otherwise this would be possible:
         # return tags.similar_objects(**filters)
