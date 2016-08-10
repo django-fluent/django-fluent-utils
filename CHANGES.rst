@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 1.3 (2016-08-05)
+------------------------
+
+* Added support taggit-selectize_.
+  When installed all fluent apps use this dependency.
+
+
 Version 1.2.4 (2016-08-05)
 --------------------------
 
@@ -88,3 +95,4 @@ Version 1.0 (2014-09-28)
 .. _django-taggit: https://github.com/alex/django-taggit
 .. _django-taggit-autosuggest: https://bitbucket.org/fabian/django-taggit-autosuggest
 .. _django-taggit-autocomplete-modified: http://packages.python.org/django-taggit-autocomplete-modified/
+.. _taggit-selectize: https://github.com/chhantyal/taggit-selectize
