@@ -13,7 +13,9 @@ __all__ = (
 
 TaggableManager = None
 
-if is_installed('taggit_autosuggest'):
+if is_installed('taggit_selectize'):
+    from taggit_selectize.managers import TaggableManager
+elif is_installed('taggit_autosuggest'):
     from taggit_autosuggest.managers import TaggableManager
 elif is_installed('taggit_autocomplete_modified'):
     from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as TaggableManager
@@ -30,6 +32,7 @@ else:
     # South should ignore the tags field as it's a RelatedField.
     add_ignored_fields((
         "^taggit\.managers\.TaggableManager",
+        "^taggit_selectize\.managers\.TaggableManager",
         "^taggit_autosuggest\.managers\.TaggableManager",
         "^taggit_autocomplete_modified\.managers\.TaggableManagerAutocomplete",
     ))
