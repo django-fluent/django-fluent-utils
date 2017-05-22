@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 1.3.1 (2017-05-22)
+--------------------------
+
+* Added ``MiddlewareMixin`` for Django 1.10 compatibility.
+* Fixed error in soft-dependency comments module when no comments app is installed;
+  the ``get_comments_are_open`` and ``get_comments_are_moderated`` functions didn't check this properly.
+
+
 Version 1.3 (2016-08-05)
 ------------------------
 
