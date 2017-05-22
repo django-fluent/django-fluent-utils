@@ -23,5 +23,3 @@ def get_db_table(module, model_name, meta=None, prefix=None):
     model_name = model_name.lower()
     db_table = "{0}{1}_{2}".format(prefix or '', app_label, model_name)
     return truncate_name(db_table, connection.ops.max_name_length())
-
-

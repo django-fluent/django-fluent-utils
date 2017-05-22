@@ -123,7 +123,7 @@ class CommentManagerStub(models.Manager):
     def get_queryset(self):
         return super(CommentManagerStub, self).get_queryset().none()
 
-    if django.VERSION < (1,7):
+    if django.VERSION < (1, 7):
         def get_query_set(self):
             return super(CommentManagerStub, self).get_query_set().none()
 
@@ -162,24 +162,23 @@ class CommentModelStub(models.Model):
     is_removed = models.BooleanField(default=False)
 
 
-
 CommentModel = get_model()
-
 
 
 if IS_INSTALLED:
     class CommentRelation(GenericRelation):
+
         def __init__(self, to=CommentModel, **kwargs):
             kwargs.setdefault('object_id_field', 'object_pk')
             super(CommentRelation, self).__init__(to, **kwargs)
 else:
     class CommentRelation(models.Field):
+
         def __init__(self, *args, **kwargs):
             pass
 
         def contribute_to_class(self, cls, name, virtual_only=False):
             setattr(cls, name, CommentModelStub.objects.none())
-
 
 
 class CommentsMixin(models.Model):
@@ -200,7 +199,6 @@ class CommentsMixin(models.Model):
     comments = property(get_public_comments_for_model, doc="Return the visible comments.")
     comments_are_moderated = property(get_comments_are_moderated, doc="Check if comments are moderated")
 
-
     @property
     def comments_are_open(self):
         """
@@ -210,5 +208,3 @@ class CommentsMixin(models.Model):
             return False
 
         return get_comments_are_open(self)
-
-

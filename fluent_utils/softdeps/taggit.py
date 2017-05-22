@@ -51,7 +51,6 @@ class TagsMixin(models.Model):
     class Meta:
         abstract = True
 
-
     def similar_objects(self, num=None, **filters):
         """
         Find similar objects using related tags.

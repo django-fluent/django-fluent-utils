@@ -8,7 +8,6 @@ class MultiSiteAdminMixin(object):
     """
     filter_site = True
 
-
     def get_queryset(self, request):
         qs = super(MultiSiteAdminMixin, self).get_queryset(request)
 
@@ -18,11 +17,10 @@ class MultiSiteAdminMixin(object):
             qs = qs.parent_site(int(settings.SITE_ID))  # Note: that method can be customized (e.g. SharedContentQuerySet)
         return qs
 
-
     # For Django 1.5:
     # Leave for Django 1.6/1.7, so backwards compatibility can be fixed.
     # It will be removed in Django 1.8, so remove it here too to avoid false promises.
-    if django.VERSION < (1,8):
+    if django.VERSION < (1, 8):
         def queryset(self, request):
             qs = super(MultiSiteAdminMixin, self).queryset(request)
             if self.filter_site:

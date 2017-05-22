@@ -18,7 +18,7 @@ except ImportError:
     def add_preserved_filters(context, form_url):
         return form_url
 
-if django.VERSION >= (1,6):
+if django.VERSION >= (1, 6):
     def is_queryset_empty(queryset):
         """
         Check whether a queryset is empty by using ``.none()``.
@@ -26,5 +26,6 @@ if django.VERSION >= (1,6):
         return queryset.query.is_empty()
 else:
     from django.db.models.query import EmptyQuerySet
+
     def is_queryset_empty(queryset):
         return isinstance(queryset, EmptyQuerySet)

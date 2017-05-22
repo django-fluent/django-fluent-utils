@@ -5,6 +5,7 @@ class HideChoicesCharField(models.CharField):
     """
     For Django 1.7, hide the 'choices' for a field.
     """
+
     def deconstruct(self):
         name, path, args, kwargs = models.CharField.deconstruct(self)
 

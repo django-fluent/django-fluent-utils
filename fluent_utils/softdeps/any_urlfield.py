@@ -18,6 +18,7 @@ class AnyUrlField(BaseUrlField):
 
     If *django-any-urlfield* is not installed, only regular URLs can be used.
     """
+
     def __init__(self, *args, **kwargs):
         if 'max_length' not in kwargs:
             kwargs['max_length'] = 300  # Standardize
