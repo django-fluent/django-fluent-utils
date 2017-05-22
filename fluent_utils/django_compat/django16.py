@@ -1,7 +1,6 @@
 import django
 from django.db import transaction
 
-
 # New transaction support in Django 1.6
 try:
     transaction_atomic = transaction.atomic

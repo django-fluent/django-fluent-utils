@@ -2,6 +2,7 @@
 Generic Ajax functionality
 """
 import json
+
 from django.http import HttpResponse
 
 

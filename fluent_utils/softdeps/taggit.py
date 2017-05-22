@@ -2,8 +2,10 @@
 Optional integration with django-taggit.
 """
 from __future__ import absolute_import
+
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+
 from fluent_utils.django_compat import is_installed
 
 __all__ = (

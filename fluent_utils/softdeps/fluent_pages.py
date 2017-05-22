@@ -2,7 +2,9 @@
 Optional integration with fluent-pages features
 """
 from __future__ import absolute_import
+
 from django.utils.functional import lazy
+
 from fluent_utils.django_compat import is_installed
 
 __all__ = (

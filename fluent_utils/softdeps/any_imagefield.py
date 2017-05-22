@@ -2,7 +2,9 @@
 Optional integration with django-any-Imagefield
 """
 from __future__ import absolute_import
+
 from django.db import models
+
 from fluent_utils.django_compat import is_installed
 
 if is_installed('any_imagefield'):

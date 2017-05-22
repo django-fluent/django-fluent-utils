@@ -8,10 +8,11 @@ and return stub or dummy values so all code works as expected.
 import django
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
+from django.db import models
 from django.dispatch import Signal
 from django.utils.translation import ugettext_lazy as _
-from django.db import models
-from fluent_utils.django_compat import is_installed, AUTH_USER_MODEL
+
+from fluent_utils.django_compat import AUTH_USER_MODEL, is_installed
 from fluent_utils.django_compat.moves.contenttypes import GenericForeignKey, GenericRelation
 
 __all__ = (

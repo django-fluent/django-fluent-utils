@@ -1,5 +1,6 @@
-import sys
 import logging
+import sys
+
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
