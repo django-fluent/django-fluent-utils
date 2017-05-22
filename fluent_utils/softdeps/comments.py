@@ -78,7 +78,7 @@ def get_comments_are_open(instance):
     """
     Check if comments are open for the instance
     """
-    if not moderator or not CommentModel:
+    if not IS_INSTALLED:
         return False
 
     try:
@@ -97,7 +97,7 @@ def get_comments_are_moderated(instance):
     """
     Check if comments are moderated for the instance
     """
-    if not moderator or not CommentModel:
+    if not IS_INSTALLED:
         return False
 
     try:
