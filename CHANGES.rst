@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 1.3.2 (2017-07-17)
+--------------------------
+
+* Fixed bogus migration changes detected by Django 1.11 for the AnyUrlField softdep.
+
+
 Version 1.3.1 (2017-05-22)
 --------------------------
 
