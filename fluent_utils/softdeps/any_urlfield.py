@@ -36,5 +36,4 @@ class AnyUrlField(BaseUrlField):
     def deconstruct(self):
         # For Django 1.7 migrations, masquerade as normal URLField too
         name, path, args, kwargs = super(AnyUrlField, self).deconstruct()
-        path = "django.db.models.{}".format(models.URLField.__name__)
-        return name, path, args, kwargs
+        return name, "django.db.models.URLField", args, kwargs
