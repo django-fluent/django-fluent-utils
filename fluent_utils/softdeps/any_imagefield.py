@@ -30,10 +30,15 @@ class AnyFileField(BaseFileField):
         return (path, args, kwargs)
 
     def deconstruct(self):
-        # For Django 1.7 migrations, masquerade as normal FileField too
+        # For Django migrations, masquerade as normal FileField too
         name, path, args, kwargs = super(AnyFileField, self).deconstruct()
-        path = "{0}.{1}".format(models.FileField.__module__, models.FileField.__name__)
-        return name, path, args, kwargs
+
+        # FileField behavior
+        if kwargs.get("max_length") == 100:
+            del kwargs["max_length"]
+        kwargs['upload_to'] = getattr(self, 'upload_to', None) or getattr(self, 'directory', None) or ''
+
+        return name, "django.db.models.FileField", args, kwargs
 
 
 # subclassing here so South or Django migrations detect a single class.
@@ -52,7 +57,12 @@ class AnyImageField(BaseImageField):
         return (path, args, kwargs)
 
     def deconstruct(self):
-        # For Django 1.7 migrations, masquerade as normal ImageField too
+        # For Django migrations, masquerade as normal ImageField too
         name, path, args, kwargs = super(AnyImageField, self).deconstruct()
-        path = "{0}.{1}".format(models.ImageField.__module__, models.ImageField.__name__)
-        return name, path, args, kwargs
+
+        # FileField behavior
+        if kwargs.get("max_length") == 100:
+            del kwargs["max_length"]
+        kwargs['upload_to'] = getattr(self, 'upload_to', None) or getattr(self, 'directory', None) or ''
+
+        return name, "django.db.models.ImageField", args, kwargs
