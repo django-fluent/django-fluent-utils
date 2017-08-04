@@ -1,10 +1,16 @@
 Changelog
 =========
 
+Version 1.3.3 (2017-08-04)
+--------------------------
+
+* Fixed bogus migration changes detected by Django 1.11 for the ``AnyFileField``/``AnyImageField`` softdep.
+
+
 Version 1.3.2 (2017-07-17)
 --------------------------
 
-* Fixed bogus migration changes detected by Django 1.11 for the AnyUrlField softdep.
+* Fixed bogus migration changes detected by Django 1.11 for the ``AnyUrlField`` softdep.
 
 
 Version 1.3.1 (2017-05-22)
