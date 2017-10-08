@@ -5,6 +5,7 @@ from __future__ import absolute_import
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Field
 
 from fluent_utils.django_compat import is_installed
 
@@ -13,16 +14,14 @@ __all__ = (
     'TagsMixin',
 )
 
-TaggableManager = None
-
 if is_installed('taggit_selectize'):
-    from taggit_selectize.managers import TaggableManager
+    from taggit_selectize.managers import TaggableManager as BaseTaggableManager
 elif is_installed('taggit_autosuggest'):
-    from taggit_autosuggest.managers import TaggableManager
+    from taggit_autosuggest.managers import TaggableManager as BaseTaggableManager
 elif is_installed('taggit_autocomplete_modified'):
-    from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as TaggableManager
+    from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as BaseTaggableManager
 elif is_installed('taggit'):
-    from taggit.managers import TaggableManager
+    from taggit.managers import TaggableManager as BaseTaggableManager
 
 
 # Make sure the 'tags' field is ignored by old versions of South
@@ -40,15 +39,31 @@ else:
     ))
 
 
+if BaseTaggableManager is not None:
+    # Make sure the migrations have one consistent path to import from
+    class TaggableManager(BaseTaggableManager):
+        pass
+else:
+    class TaggableManager(Field):
+        def __bool__(self):
+            return False  # partial compatibility with old code.
+
+        def __nonzero__(self):
+            return False  # Python 2
+
+        def contribute_to_class(self, cls, name, *args, **kwargs):
+            setattr(cls, name, None)  # compatibility with old code.
+
+        def db_type(self, connection):
+            return None  # just like RelatedField
+
+
 class TagsMixin(models.Model):
     """
     Mixin for adding tags to a model.
     """
     # Make association with tags optional.
-    if TaggableManager is not None:
-        tags = TaggableManager(blank=True)
-    else:
-        tags = None
+    tags = TaggableManager(blank=True)
 
     class Meta:
         abstract = True
