@@ -82,7 +82,7 @@ def _import_module(module_label, classnames=()):
         __, __, exc_traceback = sys.exc_info()
         frames = traceback.extract_tb(exc_traceback)
         if len(frames) > 1:
-            if len(frames) == 2 and '/_pydev_' in frames[1][0] and frames[1][2] == 'plugin_import':
+            if len(frames) == 2 and '/_pydev_' in frames[1][0] and frames[1][2] in ('import_hook', 'plugin_import'):
                 return None  # Ship over PyDev import hook, in PyCharm 4.x
 
             raise
