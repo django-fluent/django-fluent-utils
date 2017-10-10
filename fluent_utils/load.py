@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import importlib
 import sys
 import traceback
 
@@ -33,7 +34,7 @@ def import_class(import_path, setting_name=None):
     mod_name, class_name = import_path.rsplit('.', 1)
 
     # import module
-    mod = _import_module(mod_name, classnames=(class_name,))
+    mod = import_module_or_none(mod_name)
     if mod is not None:
         # Loaded module, get attribute
         try:
@@ -54,21 +55,24 @@ def import_apps_submodule(submodule):
     """
     apps = []
     for app in get_app_names():
-        if _import_module('{0}.{1}'.format(app, submodule)) is not None:
+        if import_module_or_none('{0}.{1}'.format(app, submodule)) is not None:
             apps.append(app)
 
     return apps
 
 
-# Based on code from django-oscar:
-def _import_module(module_label, classnames=()):
+def import_module_or_none(module_label):
     """
     Imports the module with the given name.
-    Returns None if the module doesn't exist, but propagates any import errors.
+
+    Returns None if the module doesn't exist,
+    but it does propagates import errors in deeper modules.
     """
     try:
-        return __import__(module_label, fromlist=classnames)
+        # On Python 3, importlib has much more functionality compared to Python 2.
+        return importlib.import_module(module_label)
     except ImportError:
+        # Based on code from django-oscar:
         # There are 2 reasons why there could be an ImportError:
         #
         #  1. Module does not exist. In that case, we ignore the import and return None
