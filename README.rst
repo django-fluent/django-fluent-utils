@@ -68,6 +68,7 @@ These API's are available for other *django-fluent-..* modules:
 * ``fluent_utils.load.import_apps_submodule()`` - import a module in every application found in ``INSTALLED_APPS``.
 * ``fluent_utils.load.import_class()`` - import a class via a Python path.
 * ``fluent_utils.load.import_settings_class()`` - import a class via a named setting.
+* ``fluent_utils.load.import_module_or_none()`` - import a module, only raises an ``ImportError`` for sub modules.
 * ``fluent_utils.softdeps.*`` - various soft dependencies, see above
 
 

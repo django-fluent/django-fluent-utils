@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 1.4 (2017-11-02)
+------------------------
+
+* Added ``import_module_or_none()``, which only raises an ``ImportError`` for sub modules.
+* Fixed Python 3 import logic, using ``importlib`` now.
+* Make sure ``TaggableManager`` has a consistent path in migration files.
+* Removed ``fluent_utils.dry.models.get_db_table()`` which never worked not was used.
+* Removed unneeded Django 1.4-1.6 compatibility code. Kept imports to avoid breaking old django-fluent apps.
+
+
 Version 1.3.3 (2017-08-04)
 --------------------------
 
