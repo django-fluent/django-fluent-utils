@@ -85,9 +85,10 @@ def import_module_or_none(module_label):
         # application was found and ImportError originates within the local app
         __, __, exc_traceback = sys.exc_info()
         frames = traceback.extract_tb(exc_traceback)
+        frames = [f for f in frames
+                  if f[0] != "<frozen importlib._bootstrap>" and  # Python 3.6
+                  not f[0].endswith('/importlib/__init__.py')
+                  and not '/_pydev_' in f[0]]
         if len(frames) > 1:
-            if len(frames) == 2 and '/_pydev_' in frames[1][0] and frames[1][2] in ('import_hook', 'plugin_import'):
-                return None  # Ship over PyDev import hook, in PyCharm 4.x
-
             raise
     return None
