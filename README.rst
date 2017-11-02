@@ -65,7 +65,6 @@ These API's are available for other *django-fluent-..* modules:
 * ``fluent_utils.django_compat`` - imports for various features that moved or changed between Django versions.
 * ``fluent_utils.dry.admin.MultiSiteAdminMixin`` - mixin for the admin to filter on the ``parent_site`` field.
 * ``fluent_utils.dry.fields.HideChoicesCharField`` - avoid expanding choices in Django migrations.
-* ``fluent_utils.dry.models.get_db_table()`` - regenerate the Django DB table name with an optional prefix.
 * ``fluent_utils.load.import_apps_submodule()`` - import a module in every application found in ``INSTALLED_APPS``.
 * ``fluent_utils.load.import_class()`` - import a class via a Python path.
 * ``fluent_utils.load.import_settings_class()`` - import a class via a named setting.
