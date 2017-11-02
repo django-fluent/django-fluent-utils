@@ -29,7 +29,11 @@ else:
     # Use the stubs
     from django.core.urlresolvers import reverse
     from fluent_utils.django_compat import is_installed
-    from parler.views import ViewUrlMixin
+
+    try:
+        from parler.views import ViewUrlMixin
+    except ImportError:
+        ViewUrlMixin = object
 
     HAS_APP_URLS = False
 

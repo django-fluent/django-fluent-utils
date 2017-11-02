@@ -22,6 +22,8 @@ elif is_installed('taggit_autocomplete_modified'):
     from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as BaseTaggableManager
 elif is_installed('taggit'):
     from taggit.managers import TaggableManager as BaseTaggableManager
+else:
+    BaseTaggableManager = None
 
 
 # Make sure the 'tags' field is ignored by old versions of South
