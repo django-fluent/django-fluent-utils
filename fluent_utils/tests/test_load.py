@@ -9,11 +9,7 @@ from fluent_utils.load import import_module_or_none, import_class, import_settin
 class LoadTests(SimpleTestCase):
 
     def test_import_apps_submodule(self):
-        if django.VERSION < (1, 7):
-            expected = ['django.contrib.auth', 'django.contrib.sites']
-        else:
-            expected = ['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sites']
-
+        expected = ['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sites']
         self.assertEqual(import_apps_submodule('admin'), expected)
 
     def test_import_settings_class(self):
