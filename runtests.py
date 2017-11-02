@@ -14,6 +14,7 @@ sys.stderr.write('Using Django version {0} from {1}\n'.format(
 
 if not settings.configured:
     module_root = path.dirname(path.realpath(__file__))
+    _EXTRA_INSTALLED_APPS = ()
 
     if django.VERSION >= (1, 8):
         template_settings = dict(
@@ -50,6 +51,9 @@ if not settings.configured:
             ],
         )
 
+        if django.VERSION <= (1, 6):
+            _EXTRA_INSTALLED_APPS = ('fluent_utils',)  # for test discovery
+
     settings.configure(
         DEBUG = False,  # will be False anyway by DjangoTestRunner.
         DATABASES = {
@@ -64,7 +68,7 @@ if not settings.configured:
             'django.contrib.sites',
             'django.contrib.admin',
             'django.contrib.sessions',
-        ),
+        ) + _EXTRA_INSTALLED_APPS,
         MIDDLEWARE_CLASSES = (
             'django.middleware.common.CommonMiddleware',
             'django.contrib.sessions.middleware.SessionMiddleware',
