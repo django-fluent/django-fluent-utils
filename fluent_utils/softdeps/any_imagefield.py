@@ -22,13 +22,6 @@ class AnyFileField(BaseFileField):
     If *django-any-imagefield* is not installed, the filebrowser link will not be displayed.
     """
 
-    def south_field_triple(self):
-        # Masquerade as normal FileField, so the soft-dependency also exists in the migrations.
-        from south.modelsinspector import introspector
-        path = "{0}.{1}".format(models.FileField.__module__, models.FileField.__name__)
-        args, kwargs = introspector(self)
-        return (path, args, kwargs)
-
     def deconstruct(self):
         # For Django migrations, masquerade as normal FileField too
         name, path, args, kwargs = super(AnyFileField, self).deconstruct()
@@ -48,13 +41,6 @@ class AnyImageField(BaseImageField):
 
     If *django-any-imagefield* is not installed, the filebrowser link will not be displayed.
     """
-
-    def south_field_triple(self):
-        # Masquerade as normal ImageField, so the soft-dependency also exists in the migrations.
-        from south.modelsinspector import introspector
-        path = "{0}.{1}".format(models.ImageField.__module__, models.ImageField.__name__)
-        args, kwargs = introspector(self)
-        return (path, args, kwargs)
 
     def deconstruct(self):
         # For Django migrations, masquerade as normal ImageField too

@@ -4,10 +4,9 @@ import importlib
 import sys
 import traceback
 
+from django.apps import apps
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-
-from .django_compat import get_app_names
 
 __all__ = (
     'import_settings_class',
@@ -53,12 +52,13 @@ def import_apps_submodule(submodule):
     """
     Look for a submodule is a series of packages, e.g. ".pagetype_plugins" in all INSTALLED_APPS.
     """
-    apps = []
-    for app in get_app_names():
+    found_apps = []
+    for appconfig in apps.get_app_configs():
+        app = appconfig.name
         if import_module_or_none('{0}.{1}'.format(app, submodule)) is not None:
-            apps.append(app)
+            found_apps.append(app)
 
-    return apps
+    return found_apps
 
 
 def import_module_or_none(module_label):

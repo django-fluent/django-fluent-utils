@@ -18,10 +18,3 @@ class HideChoicesCharField(models.CharField):
             pass
 
         return name, path, args, kwargs
-
-try:
-    from south.modelsinspector import add_introspection_rules
-except ImportError:
-    pass
-else:
-    add_introspection_rules([], ["^" + __name__.replace(".", "\.") + "\.HideChoicesCharField"])

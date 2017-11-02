@@ -6,14 +6,15 @@ All functions even work without having the app installed,
 and return stub or dummy values so all code works as expected.
 """
 import django
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.db import models
 from django.dispatch import Signal
 from django.utils.translation import ugettext_lazy as _
 
-from fluent_utils.django_compat import AUTH_USER_MODEL, is_installed
-from fluent_utils.django_compat.moves.contenttypes import GenericForeignKey, GenericRelation
+from fluent_utils.django_compat import is_installed
 
 __all__ = (
     'django_comments',                # Main module
@@ -152,7 +153,7 @@ class CommentModelStub(models.Model):
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
     site = models.ForeignKey(Site)
 
-    user = models.ForeignKey(AUTH_USER_MODEL, related_name="%(class)s_comments")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(class)s_comments")
     user_name = models.CharField(max_length=50, blank=True)
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
