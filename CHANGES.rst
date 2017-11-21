@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 1.4.1 (2017-11-21)
+--------------------------
+
+* Make sure gevent import hooks are ignored in ``import_module_or_none()`` and ``import_apps_submodule()``.
+
+
 Version 1.4 (2017-11-02)
 ------------------------
 
