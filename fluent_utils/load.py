@@ -87,8 +87,9 @@ def import_module_or_none(module_label):
         frames = traceback.extract_tb(exc_traceback)
         frames = [f for f in frames
                   if f[0] != "<frozen importlib._bootstrap>" and  # Python 3.6
-                  not f[0].endswith('/importlib/__init__.py')
-                  and not '/_pydev_' in f[0]]
+                  not f[0].endswith('/importlib/__init__.py') and
+                  not f[0].endswith('/gevent/builtins.py') and
+                  not '/_pydev_' in f[0]]
         if len(frames) > 1:
             raise
     return None
