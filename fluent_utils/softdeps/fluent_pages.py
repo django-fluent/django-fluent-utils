@@ -27,8 +27,7 @@ if is_installed('fluent_pages'):
     HAS_APP_URLS = True
 else:
     # Use the stubs
-    from django.core.urlresolvers import reverse
-    from fluent_utils.django_compat import is_installed
+    from fluent_utils.django_compat import is_installed, reverse
 
     try:
         from parler.views import ViewUrlMixin
@@ -48,7 +47,7 @@ else:
         """
         Stub for :func:`fluent_pages.urlresolvers.mixed_reverse`.
         Will use the real code if the app is loaded,
-        otherwise :func:`~django.core.urlresolvers.reverse` is used.
+        otherwise :func:`~django.urls.reverse` is used.
         """
         return reverse(viewname, args=args, kwargs=kwargs, current_app=current_app)
 

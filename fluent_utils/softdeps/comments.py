@@ -148,12 +148,12 @@ class CommentModelStub(models.Model):
     objects = CommentManagerStub()
 
     # add fields so ORM queries won't cause any issues.
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
     object_pk = models.TextField()
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
-    site = models.ForeignKey(Site)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(class)s_comments")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name="%(class)s_comments", on_delete=models.SET_NULL)
     user_name = models.CharField(max_length=50, blank=True)
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
