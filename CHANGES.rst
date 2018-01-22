@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.0 (2018-01-22)
+------------------------
+
+* Fixed Django 2.0 compatibility.
+* Added imports for ``django.urls`` for Django 1.9- compatibility.
+
+
 Version 1.4.1 (2017-11-21)
 --------------------------
 
