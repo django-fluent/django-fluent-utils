@@ -27,7 +27,10 @@ if is_installed('fluent_pages'):
     HAS_APP_URLS = True
 else:
     # Use the stubs
-    from django.core.urlresolvers import reverse
+    try:
+        from django.core.urlresolvers import reverse
+    except ImportError:
+        from django.urls import reverse
     from fluent_utils.django_compat import is_installed
 
     try:
