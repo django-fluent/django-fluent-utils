@@ -90,12 +90,13 @@ class TagsMixin(models.Model):
 
         lookup_kwargs = tags._lookup_kwargs()
         lookup_keys = sorted(lookup_kwargs)
-        qs = tags.through.objects.values(*lookup_kwargs.keys())
-        qs = qs.annotate(n=models.Count('pk'))
-        qs = qs.exclude(**lookup_kwargs)
         subq = tags.all()
-        qs = qs.filter(tag__in=list(subq))
-        qs = qs.order_by('-n')
+        qs = (tags.through.objects
+              .values(*lookup_kwargs.keys())
+              .annotate(n=models.Count('pk'))
+              .exclude(**lookup_kwargs)
+              .filter(tag__in=list(subq))
+              .order_by('-n'))
 
         # from https://github.com/alex/django-taggit/issues/32#issuecomment-1002491
         if filters is not None:
