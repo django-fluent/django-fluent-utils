@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import importlib
+import os
 import sys
 import traceback
 
@@ -13,6 +14,11 @@ __all__ = (
     'import_class',
     'import_apps_submodule',
 )
+
+# Windows support
+IMPORT_PATH_IMPORTLIB = importlib.__file__.rstrip('c')  # .pyc -> .py
+IMPORT_PATH_GEVENT = os.path.join('gevent', 'builtins.py')
+IMPORT_PATH_PYDEV = os.path.sep + '_pydev_'
 
 
 def import_settings_class(setting_name):
@@ -87,9 +93,9 @@ def import_module_or_none(module_label):
         frames = traceback.extract_tb(exc_traceback)
         frames = [f for f in frames
                   if f[0] != "<frozen importlib._bootstrap>" and  # Python 3.6
-                  not f[0].endswith('/importlib/__init__.py') and
-                  not f[0].endswith('/gevent/builtins.py') and
-                  not '/_pydev_' in f[0]]
+                  f[0] != IMPORT_PATH_IMPORTLIB and
+                  not f[0].endswith(IMPORT_PATH_GEVENT) and
+                  not IMPORT_PATH_PYDEV in f[0]]
         if len(frames) > 1:
             raise
     return None
