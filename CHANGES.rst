@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 2.0.1 (2018-08-27)
+--------------------------
+
+* Fixed Windows compatibility for ``import_module_or_none()``.
+
 Version 2.0 (2018-01-22)
 ------------------------
 
