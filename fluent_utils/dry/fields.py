@@ -10,10 +10,10 @@ class HideChoicesCharField(models.CharField):
         name, path, args, kwargs = models.CharField.deconstruct(self)
 
         # Hide the fact this model was used.
-        if path == 'fluent_utils.dry.fields.HideChoicesCharField':
-            path = 'django.db.models.CharField'
+        if path == "fluent_utils.dry.fields.HideChoicesCharField":
+            path = "django.db.models.CharField"
         try:
-            del kwargs['choices']
+            del kwargs["choices"]
         except KeyError:
             pass
 

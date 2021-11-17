@@ -9,17 +9,19 @@ from django.db.models import Field
 from fluent_utils.django_compat import is_installed
 
 __all__ = (
-    'TaggableManager',
-    'TagsMixin',
+    "TaggableManager",
+    "TagsMixin",
 )
 
-if is_installed('taggit_selectize'):
+if is_installed("taggit_selectize"):
     from taggit_selectize.managers import TaggableManager as BaseTaggableManager
-elif is_installed('taggit_autosuggest'):
+elif is_installed("taggit_autosuggest"):
     from taggit_autosuggest.managers import TaggableManager as BaseTaggableManager
-elif is_installed('taggit_autocomplete_modified'):
-    from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as BaseTaggableManager
-elif is_installed('taggit'):
+elif is_installed("taggit_autocomplete_modified"):
+    from taggit_autocomplete_modified.managers import (
+        TaggableManagerAutocomplete as BaseTaggableManager,
+    )
+elif is_installed("taggit"):
     from taggit.managers import TaggableManager as BaseTaggableManager
 else:
     BaseTaggableManager = None
@@ -29,7 +31,10 @@ if BaseTaggableManager is not None:
     # Make sure the migrations have one consistent path to import from
     class TaggableManager(BaseTaggableManager):
         pass
+
+
 else:
+
     class TaggableManager(Field):
         def __bool__(self):
             return False  # partial compatibility with old code.
@@ -48,6 +53,7 @@ class TagsMixin(models.Model):
     """
     Mixin for adding tags to a model.
     """
+
     # Make association with tags optional.
     tags = TaggableManager(blank=True)
 
@@ -63,7 +69,7 @@ class TagsMixin(models.Model):
             return []
 
         content_type = ContentType.objects.get_for_model(self.__class__)
-        filters['content_type'] = content_type
+        filters["content_type"] = content_type
 
         # can't filter, see
         # - https://github.com/alex/django-taggit/issues/32
@@ -75,12 +81,13 @@ class TagsMixin(models.Model):
         lookup_kwargs = tags._lookup_kwargs()
         lookup_keys = sorted(lookup_kwargs)
         subq = tags.all()
-        qs = (tags.through.objects
-              .values(*lookup_kwargs.keys())
-              .annotate(n=models.Count('pk'))
-              .exclude(**lookup_kwargs)
-              .filter(tag__in=list(subq))
-              .order_by('-n'))
+        qs = (
+            tags.through.objects.values(*lookup_kwargs.keys())
+            .annotate(n=models.Count("pk"))
+            .exclude(**lookup_kwargs)
+            .filter(tag__in=list(subq))
+            .order_by("-n")
+        )
 
         # from https://github.com/alex/django-taggit/issues/32#issuecomment-1002491
         if filters is not None:
@@ -97,15 +104,15 @@ class TagsMixin(models.Model):
             # Can we do this without a second query by using a select_related()
             # somehow?
             f = tags.through._meta.get_field_by_name(lookup_keys[0])[0]
-            objs = f.rel.to._default_manager.filter(**{
-                "%s__in" % f.rel.field_name: [r["content_object"] for r in qs]
-            })
+            objs = f.rel.to._default_manager.filter(
+                **{"%s__in" % f.rel.field_name: [r["content_object"] for r in qs]}
+            )
             for obj in objs:
                 items[(getattr(obj, f.rel.field_name),)] = obj
         else:
             preload = {}
             for result in qs:
-                preload.setdefault(result['content_type'], set())
+                preload.setdefault(result["content_type"], set())
                 preload[result["content_type"]].add(result["object_id"])
 
             for ct, obj_ids in preload.items():
@@ -115,9 +122,7 @@ class TagsMixin(models.Model):
 
         results = []
         for result in qs:
-            obj = items[
-                tuple(result[k] for k in lookup_keys)
-            ]
+            obj = items[tuple(result[k] for k in lookup_keys)]
             obj.similar_tags = result["n"]
             results.append(obj)
         return results

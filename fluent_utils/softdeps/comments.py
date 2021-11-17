@@ -13,22 +13,21 @@ from django.db import models
 from django.dispatch import Signal
 from django.utils.translation import gettext_lazy as _
 
-
 from fluent_utils.django_compat import is_installed
 
 __all__ = (
-    'django_comments',                # Main module
-    'signals',                        # Signals module
-    'get_model',                      # Get the comment model
-    'get_form',                       # Get the comment form
-    'get_public_comments_for_model',  # Get publicly visible comments
-    'get_comments_are_open',          # Utility to check if comments are open for a model.
-    'get_comments_are_moderated',     # Utility to check if comments are moderated for a model.
-    'CommentModel',                   # Points to the comments model.
-    'CommentModerator',               # Base class for all custom comment moderators
-    'CommentsRelation',               # Generic relation back to the comments.
-    'CommentsMixin',                  # Model mixin for comments
-    'IS_INSTALLED',
+    "django_comments",  # Main module
+    "signals",  # Signals module
+    "get_model",  # Get the comment model
+    "get_form",  # Get the comment form
+    "get_public_comments_for_model",  # Get publicly visible comments
+    "get_comments_are_open",  # Utility to check if comments are open for a model.
+    "get_comments_are_moderated",  # Utility to check if comments are moderated for a model.
+    "CommentModel",  # Points to the comments model.
+    "CommentModerator",  # Base class for all custom comment moderators
+    "CommentsRelation",  # Generic relation back to the comments.
+    "CommentsMixin",  # Model mixin for comments
+    "IS_INSTALLED",
 )
 
 django_comments = None
@@ -37,12 +36,14 @@ CommentModerator = None
 get_model = None
 IS_INSTALLED = False
 
-if is_installed('django_comments'):
+if is_installed("django_comments"):
     import django_comments
-    from django_comments import get_model, get_form, signals
-    from django_comments.moderation import moderator, CommentModerator
+    from django_comments import get_form, get_model, signals
+    from django_comments.moderation import CommentModerator, moderator
+
     IS_INSTALLED = True
 else:
+
     def get_model():
         return CommentManagerStub
 
@@ -129,9 +130,10 @@ class CommentModelStub(models.Model):
     """
     Stub model that :func:`get_model` returns if *django.contrib.comments* is not installed.
     """
+
     class Meta:
         managed = False
-        app_label = 'django_comments'
+        app_label = "django_comments"
         db_table = "django_comments_stub"
 
     objects = CommentManagerStub()
@@ -142,7 +144,12 @@ class CommentModelStub(models.Model):
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name="%(class)s_comments", on_delete=models.SET_NULL)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        related_name="%(class)s_comments",
+        on_delete=models.SET_NULL,
+    )
     user_name = models.CharField(max_length=50, blank=True)
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
@@ -157,14 +164,16 @@ CommentModel = get_model()
 
 
 if IS_INSTALLED:
+
     class CommentRelation(GenericRelation):
-
         def __init__(self, to=CommentModel, **kwargs):
-            kwargs.setdefault('object_id_field', 'object_pk')
+            kwargs.setdefault("object_id_field", "object_pk")
             super().__init__(to, **kwargs)
-else:
-    class CommentRelation(models.Field):
 
+
+else:
+
+    class CommentRelation(models.Field):
         def __init__(self, *args, **kwargs):
             pass
 
@@ -176,6 +185,7 @@ class CommentsMixin(models.Model):
     """
     Mixin for adding comments support to a model.
     """
+
     enable_comments = models.BooleanField(_("Enable comments"), default=True)
 
     # Reverse relation to the comments model.
@@ -188,7 +198,9 @@ class CommentsMixin(models.Model):
 
     # Properties
     comments = property(get_public_comments_for_model, doc="Return the visible comments.")
-    comments_are_moderated = property(get_comments_are_moderated, doc="Check if comments are moderated")
+    comments_are_moderated = property(
+        get_comments_are_moderated, doc="Check if comments are moderated"
+    )
 
     @property
     def comments_are_open(self):

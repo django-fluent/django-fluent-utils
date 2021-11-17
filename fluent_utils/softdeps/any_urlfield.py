@@ -6,7 +6,7 @@ from django.db import models
 
 from fluent_utils.django_compat import is_installed
 
-if is_installed('any_urlfield'):
+if is_installed("any_urlfield"):
     from any_urlfield.models import AnyUrlField as BaseUrlField
 else:
     BaseUrlField = models.URLField
@@ -21,8 +21,8 @@ class AnyUrlField(BaseUrlField):
     """
 
     def __init__(self, *args, **kwargs):
-        if 'max_length' not in kwargs:
-            kwargs['max_length'] = 300  # Standardize
+        if "max_length" not in kwargs:
+            kwargs["max_length"] = 300  # Standardize
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):

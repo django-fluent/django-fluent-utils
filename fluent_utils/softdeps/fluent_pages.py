@@ -8,16 +8,18 @@ from django.utils.functional import lazy
 from fluent_utils.django_compat import is_installed
 
 __all__ = (
-    'CurrentPageMixin',
-    'mixed_reverse',
-    'mixed_reverse_lazy',
-    'HAS_APP_URLS',
+    "CurrentPageMixin",
+    "mixed_reverse",
+    "mixed_reverse_lazy",
+    "HAS_APP_URLS",
 )
 
-if is_installed('fluent_pages'):
+if is_installed("fluent_pages"):
     # Use the real code.
+    from fluent_pages.urlresolvers import (  # app_reverse == hard dependency, no need to import here.
+        mixed_reverse,
+    )
     from fluent_pages.views import CurrentPageMixin
-    from fluent_pages.urlresolvers import mixed_reverse  # app_reverse == hard dependency, no need to import here.
 
     try:
         from fluent_pages.urlresolvers import mixed_reverse_lazy  # added after v1.0b4
@@ -39,9 +41,19 @@ else:
         Sub for CurrentPageMixin. Will use the real code if it exists.
         Make sure to define :attr:`view_url_name`, as that is required by :class:`~parler.views.ViewUrlMixin`.
         """
+
         pass
 
-    def mixed_reverse(viewname, args=None, kwargs=None, current_app=None, current_page=None, language_code=None, multiple=False, ignore_multiple=False):
+    def mixed_reverse(
+        viewname,
+        args=None,
+        kwargs=None,
+        current_app=None,
+        current_page=None,
+        language_code=None,
+        multiple=False,
+        ignore_multiple=False,
+    ):
         """
         Stub for :func:`fluent_pages.urlresolvers.mixed_reverse`.
         Will use the real code if the app is loaded,

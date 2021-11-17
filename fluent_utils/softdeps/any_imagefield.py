@@ -6,8 +6,9 @@ from django.db import models
 
 from fluent_utils.django_compat import is_installed
 
-if is_installed('any_imagefield'):
-    from any_imagefield.models import AnyFileField as BaseFileField, AnyImageField as BaseImageField
+if is_installed("any_imagefield"):
+    from any_imagefield.models import AnyFileField as BaseFileField
+    from any_imagefield.models import AnyImageField as BaseImageField
 else:
     BaseFileField = models.FileField
     BaseImageField = models.ImageField
@@ -28,7 +29,9 @@ class AnyFileField(BaseFileField):
         # FileField behavior
         if kwargs.get("max_length") == 100:
             del kwargs["max_length"]
-        kwargs['upload_to'] = getattr(self, 'upload_to', None) or getattr(self, 'directory', None) or ''
+        kwargs["upload_to"] = (
+            getattr(self, "upload_to", None) or getattr(self, "directory", None) or ""
+        )
 
         return name, "django.db.models.FileField", args, kwargs
 
@@ -48,6 +51,8 @@ class AnyImageField(BaseImageField):
         # FileField behavior
         if kwargs.get("max_length") == 100:
             del kwargs["max_length"]
-        kwargs['upload_to'] = getattr(self, 'upload_to', None) or getattr(self, 'directory', None) or ''
+        kwargs["upload_to"] = (
+            getattr(self, "upload_to", None) or getattr(self, "directory", None) or ""
+        )
 
         return name, "django.db.models.ImageField", args, kwargs

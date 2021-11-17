@@ -8,15 +8,15 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 __all__ = (
-    'import_settings_class',
-    'import_class',
-    'import_apps_submodule',
+    "import_settings_class",
+    "import_class",
+    "import_apps_submodule",
 )
 
 # Windows support
-IMPORT_PATH_IMPORTLIB = importlib.__file__.rstrip('c')  # .pyc -> .py
-IMPORT_PATH_GEVENT = os.path.join('gevent', 'builtins.py')
-IMPORT_PATH_PYDEV = os.path.sep + '_pydev_'
+IMPORT_PATH_IMPORTLIB = importlib.__file__.rstrip("c")  # .pyc -> .py
+IMPORT_PATH_GEVENT = os.path.join("gevent", "builtins.py")
+IMPORT_PATH_PYDEV = os.path.sep + "_pydev_"
 
 
 def import_settings_class(setting_name):
@@ -34,7 +34,7 @@ def import_class(import_path, setting_name=None):
     """
     Import a class by name.
     """
-    mod_name, class_name = import_path.rsplit('.', 1)
+    mod_name, class_name = import_path.rsplit(".", 1)
 
     # import module
     mod = import_module_or_none(mod_name)
@@ -47,7 +47,9 @@ def import_class(import_path, setting_name=None):
 
     # For ImportError and AttributeError, raise the same exception.
     if setting_name:
-        raise ImproperlyConfigured(f"{setting_name} does not point to an existing class: {import_path}")
+        raise ImproperlyConfigured(
+            f"{setting_name} does not point to an existing class: {import_path}"
+        )
     else:
         raise ImproperlyConfigured(f"Class not found: {import_path}")
 
@@ -59,7 +61,7 @@ def import_apps_submodule(submodule):
     found_apps = []
     for appconfig in apps.get_app_configs():
         app = appconfig.name
-        if import_module_or_none(f'{app}.{submodule}') is not None:
+        if import_module_or_none(f"{app}.{submodule}") is not None:
             found_apps.append(app)
 
     return found_apps
@@ -89,11 +91,14 @@ def import_module_or_none(module_label):
         # application was found and ImportError originates within the local app
         __, __, exc_traceback = sys.exc_info()
         frames = traceback.extract_tb(exc_traceback)
-        frames = [f for f in frames
-                  if f[0] != "<frozen importlib._bootstrap>" and  # Python 3.6
-                  f[0] != IMPORT_PATH_IMPORTLIB and
-                  not f[0].endswith(IMPORT_PATH_GEVENT) and
-                  not IMPORT_PATH_PYDEV in f[0]]
+        frames = [
+            f
+            for f in frames
+            if f[0] != "<frozen importlib._bootstrap>"
+            and f[0] != IMPORT_PATH_IMPORTLIB  # Python 3.6
+            and not f[0].endswith(IMPORT_PATH_GEVENT)
+            and not IMPORT_PATH_PYDEV in f[0]
+        ]
         if len(frames) > 1:
             raise
     return None
