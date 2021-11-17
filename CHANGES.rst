@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 3.0.1 (2021-11-17)
+--------------------------
+
+* Fixed comments SignalsStub for Django 4.0
+
+
 Version 3.0 (2021-11-17)
 ------------------------
 
