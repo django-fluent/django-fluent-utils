@@ -7,7 +7,6 @@ and return stub or dummy values so all code works as expected.
 """
 import sys
 
-import django
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -45,14 +44,7 @@ CommentModerator = None
 get_model = None
 IS_INSTALLED = False
 
-if is_installed('django.contrib.comments'):
-    # Django 1.7 and below
-    from django.contrib import comments as django_comments
-    from django.contrib.comments import get_model, get_form, signals
-    from django.contrib.comments.moderation import moderator, CommentModerator
-    IS_INSTALLED = True
-elif is_installed('django_comments'):
-    # as of Django 1.8, this is a separate app.
+if is_installed('django_comments'):
     import django_comments
     from django_comments import get_model, get_form, signals
     from django_comments.moderation import moderator, CommentModerator
@@ -132,10 +124,6 @@ class CommentManagerStub(models.Manager):
 
     def get_queryset(self):
         return super(CommentManagerStub, self).get_queryset().none()
-
-    if django.VERSION < (1, 7):
-        def get_query_set(self):
-            return super(CommentManagerStub, self).get_query_set().none()
 
     def in_moderation(self):
         return self.none()
