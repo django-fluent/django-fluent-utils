@@ -51,9 +51,9 @@ else:
         raise NotImplementedError("No stub for comments.get_form() is implemented!")
 
     class SignalsStub:
-        comment_will_be_posted = Signal(providing_args=["comment", "request"])
-        comment_was_posted = Signal(providing_args=["comment", "request"])
-        comment_was_flagged = Signal(providing_args=["comment", "flag", "created", "request"])
+        comment_will_be_posted = Signal()
+        comment_was_posted = Signal()
+        comment_was_flagged = Signal()
 
     signals = SignalsStub()
 
