@@ -165,7 +165,7 @@ CommentModel = get_model()
 
 if IS_INSTALLED:
 
-    class CommentRelation(GenericRelation):
+    class CommentsRelation(GenericRelation):
         def __init__(self, to=CommentModel, **kwargs):
             kwargs.setdefault("object_id_field", "object_pk")
             super().__init__(to, **kwargs)
@@ -173,12 +173,14 @@ if IS_INSTALLED:
 
 else:
 
-    class CommentRelation(models.Field):
+    class CommentsRelation(models.Field):
         def __init__(self, *args, **kwargs):
             pass
 
         def contribute_to_class(self, cls, name, virtual_only=False):
             setattr(cls, name, CommentModelStub.objects.none())
+
+CommentRelation = CommentsRelation  # noqa, was typo
 
 
 class CommentsMixin(models.Model):
@@ -191,7 +193,7 @@ class CommentsMixin(models.Model):
     # Reverse relation to the comments model.
     # This is a stub when django.contrib.comments is not installed, so templates don't break.
     # This avoids importing django.contrib.comments models when the app is not used.
-    all_comments = CommentRelation(verbose_name=_("Comments"))
+    all_comments = CommentsRelation(verbose_name=_("Comments"))
 
     class Meta:
         abstract = True
