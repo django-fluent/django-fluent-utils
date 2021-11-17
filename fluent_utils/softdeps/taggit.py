@@ -26,21 +26,6 @@ else:
     BaseTaggableManager = None
 
 
-# Make sure the 'tags' field is ignored by old versions of South
-try:
-    from south.modelsinspector import add_ignored_fields
-except ImportError:
-    pass
-else:
-    # South should ignore the tags field as it's a RelatedField.
-    add_ignored_fields((
-        "^taggit\.managers\.TaggableManager",
-        "^taggit_selectize\.managers\.TaggableManager",
-        "^taggit_autosuggest\.managers\.TaggableManager",
-        "^taggit_autocomplete_modified\.managers\.TaggableManagerAutocomplete",
-    ))
-
-
 if BaseTaggableManager is not None:
     # Make sure the migrations have one consistent path to import from
     class TaggableManager(BaseTaggableManager):
