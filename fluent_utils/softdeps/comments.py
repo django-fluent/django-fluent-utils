@@ -5,6 +5,8 @@ This avoids loading django_comments or django.contrib.comments unless it's insta
 All functions even work without having the app installed,
 and return stub or dummy values so all code works as expected.
 """
+import sys
+
 import django
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -12,7 +14,13 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.db import models
 from django.dispatch import Signal
-from django.utils.translation import ugettext_lazy as _
+
+if sys.version_info >= (3,):
+    # Avoid warnings on Django 3.x, errors on Django 4.0
+    from django.utils.translation import gettext_lazy as _
+else:
+    from django.utils.translation import ugettext_lazy as _
+
 
 from fluent_utils.django_compat import is_installed
 

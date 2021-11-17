@@ -12,7 +12,7 @@ from django.contrib.admin.templatetags.admin_urls import add_preserved_filters  
 from django.contrib.auth import get_user_model  # noqa
 from django.contrib.sites.shortcuts import get_current_site  # noqa
 from django.db.backends.utils import truncate_name  # noqa
-from django.utils.encoding import smart_text  # noqa
+from django.utils.encoding import smart_str  # noqa
 
 logger = logging.getLogger(__name__)
 
