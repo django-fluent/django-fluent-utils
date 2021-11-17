@@ -3,6 +3,7 @@ Optional integration with fluent-pages features
 """
 from __future__ import absolute_import
 
+from django.urls import reverse
 from django.utils.functional import lazy
 
 from fluent_utils.django_compat import is_installed
@@ -27,8 +28,6 @@ if is_installed('fluent_pages'):
     HAS_APP_URLS = True
 else:
     # Use the stubs
-    from fluent_utils.django_compat import is_installed, reverse
-
     try:
         from parler.views import ViewUrlMixin
     except ImportError:
