@@ -1,10 +1,24 @@
 Changelog
 =========
 
+Version 3.0 (2021-11-17)
+------------------------
+
+* Added Django 4.0 compatibility
+* Removed Django 1.x compatibility code in ``fluent_utils.django_compat``.
+* Renamed CommentRelation =>/CommentsRelation, but kept the old name for imports.
+* Dropped Django 1.x support.
+* Dropped Python 2.7 - 3.5 support.
+
+*These changes should not affect projects that already depend on Django 2.2 / Python 3.6+.*
+*Otherwise, you'll have to stay on django-fluent-utils 2.x, but it's recommended to upgrade.*
+
+
 Version 2.0.1 (2018-08-27)
 --------------------------
 
 * Fixed Windows compatibility for ``import_module_or_none()``.
+
 
 Version 2.0 (2018-01-22)
 ------------------------
