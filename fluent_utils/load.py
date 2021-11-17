@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import importlib
 import os
 import sys
@@ -27,7 +25,7 @@ def import_settings_class(setting_name):
     """
     config_value = getattr(settings, setting_name)
     if config_value is None:
-        raise ImproperlyConfigured("Required setting not found: {0}".format(setting_name))
+        raise ImproperlyConfigured(f"Required setting not found: {setting_name}")
 
     return import_class(config_value, setting_name)
 
@@ -49,9 +47,9 @@ def import_class(import_path, setting_name=None):
 
     # For ImportError and AttributeError, raise the same exception.
     if setting_name:
-        raise ImproperlyConfigured("{0} does not point to an existing class: {1}".format(setting_name, import_path))
+        raise ImproperlyConfigured(f"{setting_name} does not point to an existing class: {import_path}")
     else:
-        raise ImproperlyConfigured("Class not found: {0}".format(import_path))
+        raise ImproperlyConfigured(f"Class not found: {import_path}")
 
 
 def import_apps_submodule(submodule):
@@ -61,7 +59,7 @@ def import_apps_submodule(submodule):
     found_apps = []
     for appconfig in apps.get_app_configs():
         app = appconfig.name
-        if import_module_or_none('{0}.{1}'.format(app, submodule)) is not None:
+        if import_module_or_none(f'{app}.{submodule}') is not None:
             found_apps.append(app)
 
     return found_apps

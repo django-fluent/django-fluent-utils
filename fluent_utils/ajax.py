@@ -13,4 +13,4 @@ class JsonResponse(HttpResponse):
 
     def __init__(self, jsondata, status=200):
         self.jsondata = jsondata
-        super(JsonResponse, self).__init__(json.dumps(jsondata), content_type='application/json; charset=utf-8', status=status)
+        super().__init__(json.dumps(jsondata), content_type='application/json; charset=utf-8', status=status)

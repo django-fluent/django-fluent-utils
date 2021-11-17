@@ -1,7 +1,6 @@
 """
 Optional integration with django-any-urlfield
 """
-from __future__ import absolute_import
 
 from django.db import models
 
@@ -24,9 +23,9 @@ class AnyUrlField(BaseUrlField):
     def __init__(self, *args, **kwargs):
         if 'max_length' not in kwargs:
             kwargs['max_length'] = 300  # Standardize
-        super(AnyUrlField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def deconstruct(self):
         # For Django 1.7 migrations, masquerade as normal URLField too
-        name, path, args, kwargs = super(AnyUrlField, self).deconstruct()
+        name, path, args, kwargs = super().deconstruct()
         return name, "django.db.models.URLField", args, kwargs

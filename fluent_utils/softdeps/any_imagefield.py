@@ -1,7 +1,6 @@
 """
 Optional integration with django-any-Imagefield
 """
-from __future__ import absolute_import
 
 from django.db import models
 
@@ -24,7 +23,7 @@ class AnyFileField(BaseFileField):
 
     def deconstruct(self):
         # For Django migrations, masquerade as normal FileField too
-        name, path, args, kwargs = super(AnyFileField, self).deconstruct()
+        name, path, args, kwargs = super().deconstruct()
 
         # FileField behavior
         if kwargs.get("max_length") == 100:
@@ -44,7 +43,7 @@ class AnyImageField(BaseImageField):
 
     def deconstruct(self):
         # For Django migrations, masquerade as normal ImageField too
-        name, path, args, kwargs = super(AnyImageField, self).deconstruct()
+        name, path, args, kwargs = super().deconstruct()
 
         # FileField behavior
         if kwargs.get("max_length") == 100:

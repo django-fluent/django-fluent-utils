@@ -1,14 +1,14 @@
 from django.conf import settings
 
 
-class MultiSiteAdminMixin(object):
+class MultiSiteAdminMixin:
     """
     Filter the models by ``parent_site``.
     """
     filter_site = True
 
     def get_queryset(self, request):
-        qs = super(MultiSiteAdminMixin, self).get_queryset(request)
+        qs = super().get_queryset(request)
 
         # Admin only shows current site for now,
         # until there is decent filtering for it.

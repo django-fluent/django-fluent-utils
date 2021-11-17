@@ -5,20 +5,13 @@ This avoids loading django_comments or django.contrib.comments unless it's insta
 All functions even work without having the app installed,
 and return stub or dummy values so all code works as expected.
 """
-import sys
-
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.db import models
 from django.dispatch import Signal
-
-if sys.version_info >= (3,):
-    # Avoid warnings on Django 3.x, errors on Django 4.0
-    from django.utils.translation import gettext_lazy as _
-else:
-    from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 from fluent_utils.django_compat import is_installed
@@ -56,7 +49,7 @@ else:
     def get_form():
         raise NotImplementedError("No stub for comments.get_form() is implemented!")
 
-    class SignalsStub(object):
+    class SignalsStub:
         comment_will_be_posted = Signal(providing_args=["comment", "request"])
         comment_was_posted = Signal(providing_args=["comment", "request"])
         comment_was_flagged = Signal(providing_args=["comment", "flag", "created", "request"])
@@ -123,7 +116,7 @@ class CommentManagerStub(models.Manager):
     use_for_related_fields = True
 
     def get_queryset(self):
-        return super(CommentManagerStub, self).get_queryset().none()
+        return super().get_queryset().none()
 
     def in_moderation(self):
         return self.none()
@@ -168,7 +161,7 @@ if IS_INSTALLED:
 
         def __init__(self, to=CommentModel, **kwargs):
             kwargs.setdefault('object_id_field', 'object_pk')
-            super(CommentRelation, self).__init__(to, **kwargs)
+            super().__init__(to, **kwargs)
 else:
     class CommentRelation(models.Field):
 
